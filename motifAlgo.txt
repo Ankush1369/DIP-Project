@@ -1,0 +1,18 @@
+Disclaimer: Refer to the problem statement in 'problemstatement.txt' file
+BruteDP Solution:
+There are O(n^4) pairs and we are checking all the pairs and findind the DFD for the pair
+and finding the pair with minimum DFD and minimum length k.
+We are using dynamic programming to store the previous DFD and avoid calculating DFD again 
+and again.
+In this algorithm, we first choose the starting points for both the subtrajectories and then 
+start iterating over the ending points of both the subtrajectories and finding the dfd on the way.
+Time Complexity: O(n^4)
+Space Complexity: O(n^2) for memoization of DFD values ending at specific points
+
+Optimization1: Cell-Based Lower Bound
+For optimizing the algorithm, the writer is using pruning technique which is basically
+rejecting cases where we can't find a valid pair by any means for a specific 'startFirst'
+and 'startSecond' points. 
+
+
+Optimization2: Cross-Based Lower Bound

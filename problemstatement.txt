@@ -16,7 +16,7 @@ dfd(i(start), i(end), j(start), j(end)) = max(distance(i(end), i(start)),
 with base case being i(end)=i(start) and j(end)=j(start)
 
 Motif Discovery:
-Motif is defined as most similar subtrajectory pair for a given trajectory.
+Motif is defined as most similar disjoint subtrajectory pair for a given trajectory.
 Mathematically it is defined as pair of two subtrajectories S[i, ie] and S[j, je]
 such that i<ie<j<je and the minimum length of each them being let's say 'k'
 which means |ie-i+1|>=k and |je-j+1|>=k and DFD(i, ie, j, je) is minimum for 
@@ -26,5 +26,11 @@ Input: trajectory S, minimum motif length 'k'
 Output: a subtrajectory pair (S[i, ie], S[j, je]) such that
         dfd(i, ie, j, je) is minimal
 
-BruteDP Algorithm:
+Frequent Patter Finding:
+Frequent pattern refers to set of subtrajectories which includes a bare minimum
+number of disjoint subtrajectories with length say 'k' and are similar to 
+the representative subtrajectory of that set.
+For two subtrajectories to be similar , we assume that they have a upper Bound
+on DFD of both the subtrajectories day d(thres)
+
 

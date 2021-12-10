@@ -47,7 +47,8 @@ vector<pair<int, int> > motif(){
                     if(valid(startFirst, endFirst) && valid(startSecond, endSecond) && tmp<bestDFD){
                         v[0] = {startFirst, endFirst};
                         v[1] = {startSecond, endSecond};
-                    }
+                        bestDFD = tmp;
+                    } //updating the best motif if we found a valid new best pair
                 }
             }
 
