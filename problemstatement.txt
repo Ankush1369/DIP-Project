@@ -1,0 +1,30 @@
+A spatial trajectory S is defined by a sequence of points
+S = <s0, s1, s2, s3, ......., sn-1>
+Each point representing coordinates in terms of latitude and longitude , or cartesian coordinates.
+A subtrajectory of S is denoted by S[i(start):i(end)] = <si(start), si(start)+1, si(start)+2, ......., si(end)>
+0<=i(start)<i(end)<=n-1
+
+A parameter to define similarity between subtrajectories is Discrete Frechet Distance. 
+DFD can be calculated by using a recursive relation as follow:
+
+dfd(i(start), i(end), j(start), j(end)) = max(distance(i(end), i(start)),
+                                                min(dfd(i(start) , i(end)-1, j(start), j(end)), 
+                                                    dfd(i(start) , i(end), j(start), j(end)-1),
+                                                    dfd(i(start), i(end)-1, j(start), j(end)-1)
+                                                )
+                                            )
+with base case being i(end)=i(start) and j(end)=j(start)
+
+Motif Discovery:
+Motif is defined as most similar subtrajectory pair for a given trajectory.
+Mathematically it is defined as pair of two subtrajectories S[i, ie] and S[j, je]
+such that i<ie<j<je and the minimum length of each them being let's say 'k'
+which means |ie-i+1|>=k and |je-j+1|>=k and DFD(i, ie, j, je) is minimum for 
+all such valid pairs
+
+Input: trajectory S, minimum motif length 'k'
+Output: a subtrajectory pair (S[i, ie], S[j, je]) such that
+        dfd(i, ie, j, je) is minimal
+
+BruteDP Algorithm:
+
