@@ -31,6 +31,11 @@ Frequent pattern refers to set of subtrajectories which includes a bare minimum
 number of disjoint subtrajectories with length say 'k' and are similar to 
 the representative subtrajectory of that set.
 For two subtrajectories to be similar , we assume that they have a upper Bound
-on DFD of both the subtrajectories day d(thres)
+on DFD of both the subtrajectories day say d(thres)
+Input: trajectory S, length of subtrajectory = 'k', 
+    frequency threshold say 'f', discrete frechet distance threshold = 'd(thres)'
+Output: all pairs of the form (S[start:end], set(T)) such that |T|>=f
+    and DFD(S[start:end], S[i:j])<=d(thres) such that S[i:j] belongs to T
+
 
 
