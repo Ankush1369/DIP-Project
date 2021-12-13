@@ -36,6 +36,7 @@ Input: trajectory S, length of subtrajectory = 'k',
     frequency threshold say 'f', discrete frechet distance threshold = 'd(thres)'
 Output: all pairs of the form (S[start:end], set(T)) such that |T|>=f
     and DFD(S[start:end], S[i:j])<=d(thres) such that S[i:j] belongs to T
+    and |j-i+1| = 'k'
 
 
 
