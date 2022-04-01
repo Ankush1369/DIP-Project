@@ -27,6 +27,12 @@ float distance(int i, int j)
     return d;
 }
 
+float euclidean_distance(int i, int j)
+{
+    float d = sqrt(pow(S[i].first-S[j].first, 2) + pow(S[i].second-S[j].second, 2));
+    return d;
+}
+
 int read_dataset(string fname)
 {
     string line, word;
