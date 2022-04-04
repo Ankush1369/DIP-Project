@@ -1,6 +1,21 @@
 #include<iostream>
 using namespace std;
-
+int min(int a, int b)
+{
+ if(a>b)
+ {
+  return b;
+ }
+ return a;
+}
+int max(int a, int b)
+{
+ if(a<b)
+ {
+  return b;
+ }
+ return a;
+}
 //-1 t be replaced by infinity
 int E[1000][1000];
 int F[1000][1000];
@@ -62,6 +77,19 @@ int piecewise(int points[][2])
   F[j][t] = -1;
   I[j][t] = 0;
   X[j][0] = 0;
-  for(int i=t;t<=j-1)
+  for(int i=t;t<=j-1;i++)
+  {
+   int k = I[i][t-1];
+   if(k!=0 && A[k][i] != A[i][j])
+   {
+       int x = (B[k][i] - B[i][j])/(A[i][j] - A[k][i]);
+       if(x >= points[max(0,i)][0] && x<= points[min(n-1,i)][0] && F[j][t] > F[i][t-1] + E[i][j])
+       {
+        F[j][t] = F[i][t-1] + E[i][j];
+        I[j][t] = i;
+        X[j][t] = x;
+       }
+   }
+  }
  }
 }
