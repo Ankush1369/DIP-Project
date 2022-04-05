@@ -4,6 +4,8 @@
         "vector": "cpp",
         "utility": "cpp",
         "memory": "cpp",
-        "filesystem": "cpp"
+        "filesystem": "cpp",
+        "algorithm": "cpp",
+        "iostream": "cpp"
     }
 }

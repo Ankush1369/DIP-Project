@@ -1,95 +1,140 @@
-#include<iostream>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#define double long double
 using namespace std;
-int min(int a, int b)
-{
- if(a>b)
- {
-  return b;
- }
- return a;
-}
-int max(int a, int b)
-{
- if(a<b)
- {
-  return b;
- }
- return a;
-}
+// int min(int a, int b)
+// {
+//     if (a > b)
+//     {
+//         return b;
+//     }
+//     return a;
+// }
+// int max(int a, int b)
+// {
+//     if (a < b)
+//     {
+//         return b;
+//     }
+//     return a;
+// }
 //-1 t be replaced by infinity
-int E[1000][1000];
-int F[1000][1000];
-int I[1000][1000];
-int A[1000][1000];
-int X[1000][1000];
-int B[1000][1000];
-int n;
-int T = n/7;
-int piecewise(int points[][2])
+vector<vector<double> > E, F, A, B, X;
+vector<vector<int> > I;
+
+void reset(int n)
 {
- for(int i=0;i<n;i++)
- {
-  E[i][i] = -1;
-  for(int j=i+1;j<n;j++)
-  {
-   int xy=0,x=0,y=0,x_2=0;
-   for(int k=i;k<=j;k++)
-   {
-    xy+=points[k][0]*points[k][1];
-   }
-   for(int k=i;k<=j;k++)
-   {
-    x+=points[k][0];
-   }
-   for(int k=i;k<=j;k++)
-   {
-    y+=points[k][1];
-   }
-   for(int k=i;k<=j;k++)
-   {
-    x_2+=points[k][0]*points[k][0];
-   }
-   m_i_j = ((j-i+1)*xy - x*y)/((j-i+1)*x_2 - x*x);
-   c_i_j = (y - m_i_j*x)/(j-i+1);
-   A[i][j] = m_i_j;
-   B[i][j] = c_i_j;
-   E[i][j] = 0;
-   for(int k=i;k<=j;k++)
-   {
-    E[i][j] += (points[k][1] - m_i_j*points[k][0] - c_i_j)*(points[k][1] - m_i_j*points[k][0] - c_i_j);
-   }
-  }
- }
- for(int j=0;j<n;j++)
- {
-  for(int t=j;t<=T;t++)
-  {
-   F[j][t] = -1;
-   I[j][t] = 0;
-   X[j][t] = 0;
-  }
-  F[j][0] = E[0][j];
-  I[j][0] = 1;
-  X[j][1] = 0;
- }
- for(int t=1;t<=min(j-1,T);t++)
- {
-  F[j][t] = -1;
-  I[j][t] = 0;
-  X[j][0] = 0;
-  for(int i=t;t<=j-1;i++)
-  {
-   int k = I[i][t-1];
-   if(k!=0 && A[k][i] != A[i][j])
-   {
-       int x = (B[k][i] - B[i][j])/(A[i][j] - A[k][i]);
-       if(x >= points[max(0,i)][0] && x<= points[min(n-1,i)][0] && F[j][t] > F[i][t-1] + E[i][j])
-       {
-        F[j][t] = F[i][t-1] + E[i][j];
-        I[j][t] = i;
-        X[j][t] = x;
-       }
-   }
-  }
- }
+    E.clear(); E.resize(n, vector<double>(n, 0.0));
+    F.clear(); F.resize(n, vector<double>(n, 0.0));
+    A.clear(); A.resize(n, vector<double>(n, 0.0));
+    B.clear(); B.resize(n, vector<double>(n, 0.0));
+    X.clear(); X.resize(n, vector<double>(n, 0.0));
+    I.clear(); I.resize(n, vector<int>(n+1, 0));
+}
+
+bool compare(double a, double b)
+{
+    double c = abs(a-b);
+    double max_error = 1e-6;
+    return c>max_error;
+}
+
+void piecewise_continuous(vector<pair<double, double> > S)
+{
+    int n = S.size();
+    int T = 4;
+    reset(n);
+    cout << "Resetting done\n";
+    vector<double> product_xy(n + 1, 0.0);
+    vector<double> sum_x(n + 1, 0.0);
+    vector<double> sum_y(n + 1, 0.0);
+    vector<double> sum_x2(n + 1, 0.0);
+    double pxy = 0, sx = 0, sy = 0, sx2 = 0;
+    for (int i = 0; i < n; i++)
+    {
+        pxy += S[i].first * S[i].second;
+        product_xy[i + 1] = pxy;
+        sx += S[i].first;
+        sum_x[i + 1] = sx;
+        sy += S[i].second;
+        sum_y[i + 1] = sy;
+        sx2 += S[i].first * S[i].first;
+        sum_x2[i + 1] = sx2;
+    }
+    for (int i = 0; i < n; i++)
+    {
+        E[i][i] = INT32_MAX;
+        for (int j = i + 1; j < n; j++)
+        {
+
+            double slope = (j - i + 1) * (product_xy[j + 1] - product_xy[i]) - (sum_x[j + 1] - sum_x[i]) * (sum_y[j + 1] - sum_y[i]);
+            double tmp = (j - i + 1) * (sum_x2[j + 1] - sum_x2[i]) - (sum_x[j + 1] - sum_x[i]) * (sum_x[j + 1] - sum_x[i]);
+            slope = slope / tmp;
+
+            double intercept = ((sum_y[j + 1] - sum_y[i]) - slope * (sum_x[j + 1] - sum_x[i])) / (j - i + 1);
+            A[i][j] = slope;
+            B[i][j] = intercept;
+            E[i][j] = 0;
+            for (int k = i; k <= j; k++)
+            {
+                E[i][j] += (S[k].second - slope * S[k].first - intercept) * (S[k].second - slope*S[k].first - intercept);
+            }
+        }
+    }
+    
+    for (int j = 0; j < n; j++)
+    {
+        for (int t = j+1; t <= T; t++)
+        {
+            F[j][t] = -1;
+            I[j][t] = 0;
+            X[j][t] = 0;
+        }
+        F[j][1] = E[0][j];
+        I[j][1] = 1;
+        X[j][1] = 0;
+        for (int t = 2; t <= min(j-1, T); t++)
+        {
+            F[j][t] = INT32_MAX;
+            I[j][t] = 0;
+            X[j][1] = 0;
+           // cout << j << " " << '\n';
+            for (int i = t; i<j; i++)
+            {
+               // cout << "Finding index "  << i << " " << j << '\n';
+                int k = I[i][t - 1];
+                if (k != 0 && compare(A[k][i], A[i][j]))
+                {
+                    double x = (B[k][i] - B[i][j]) / (A[i][j] - A[k][i]);
+                    if (x >= S[max(0, i)].first && x <= S[min(n - 1, i)].first && ( F[j][t] == -1 || (F[j][t] > F[i][t - 1] + E[i][j]) ) )
+                    {
+                        F[j][t] = F[i][t - 1] + E[i][j];
+                        I[j][t] = i;
+                        X[j][t] = x;
+                    }
+                }
+            }
+        }
+    }
+}
+
+int main()
+{
+    vector<double> xc = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+    vector<double> yc = {5, 4, 3, 2, 1, 0, 0, 0, 0, 0, 0, 0, -5, -4, -3, -2, -1, 0, 0, 0, 0, 0, 0, 0};
+    vector<pair<double, double> > S;
+    int n = xc.size();
+    for(int i=0; i<n; i++){
+        S.push_back({xc[i], yc[i]});
+    }
+    piecewise_continuous(S);
+    for(int i=0; i<n; i++){
+        for(int j=0; j<n; j++){
+            cout << I[i][j] << " " ;
+        }
+        cout << '\n';
+    }
+
+    return 0;
 }

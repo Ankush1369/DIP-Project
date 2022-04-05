@@ -94,8 +94,6 @@ vector<pair<int, int> > motif(int k)
                 //loose lower bound on DFD which is the distance between starting points
             }
             
-
-
             for (int tmp = startSecond + 1; tmp < n; tmp++)
             {
                 dfd[startFirst][tmp] = max(dfd[startFirst][tmp - 1], distance(startFirst, tmp));
