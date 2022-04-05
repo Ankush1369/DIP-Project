@@ -23,14 +23,14 @@ using namespace std;
 vector<vector<double> > E, F, A, B, X;
 vector<vector<int> > I;
 
-void reset(int n)
+void reset(int n, int t)
 {
     E.clear(); E.resize(n, vector<double>(n, 0.0));
-    F.clear(); F.resize(n, vector<double>(n, 0.0));
+    F.clear(); F.resize(n, vector<double>(t+1, 0.0));
     A.clear(); A.resize(n, vector<double>(n, 0.0));
     B.clear(); B.resize(n, vector<double>(n, 0.0));
-    X.clear(); X.resize(n, vector<double>(n, 0.0));
-    I.clear(); I.resize(n, vector<int>(n+1, 0));
+    X.clear(); X.resize(n, vector<double>(t+1, 0.0));
+    I.clear(); I.resize(n, vector<int>(t+1, 0));
 }
 
 bool compare(double a, double b)
@@ -40,12 +40,11 @@ bool compare(double a, double b)
     return c>max_error;
 }
 
-void piecewise_continuous(vector<pair<double, double> > S)
+vector<int> piecewise_continuous(vector<pair<double, double> > S, int T)
 {
     int n = S.size();
-    int T = 4;
-    reset(n);
-    cout << "Resetting done\n";
+    reset(n, T);
+   // cout << "Resetting done\n";
     vector<double> product_xy(n + 1, 0.0);
     vector<double> sum_x(n + 1, 0.0);
     vector<double> sum_y(n + 1, 0.0);
@@ -107,7 +106,7 @@ void piecewise_continuous(vector<pair<double, double> > S)
                 if (k != 0 && compare(A[k][i], A[i][j]))
                 {
                     double x = (B[k][i] - B[i][j]) / (A[i][j] - A[k][i]);
-                    if (x >= S[max(0, i)].first && x <= S[min(n - 1, i)].first && ( F[j][t] == -1 || (F[j][t] > F[i][t - 1] + E[i][j]) ) )
+                    if (x >= S[max(0, i)].first && x <= S[min(n - 1, i)].first && (F[j][t] > F[i][t - 1] + E[i][j]) )
                     {
                         F[j][t] = F[i][t - 1] + E[i][j];
                         I[j][t] = i;
@@ -117,6 +116,18 @@ void piecewise_continuous(vector<pair<double, double> > S)
             }
         }
     }
+
+    vector<int> res;
+    int idx = n-1;
+    int point = T;
+    res.push_back(idx);
+    while(point>0){
+        res.push_back(I[idx][point]);
+        idx = I[idx][point];
+        point--;
+    }
+    reverse(res.begin(), res.end());
+    return res;
 }
 
 int main()
@@ -124,17 +135,29 @@ int main()
     vector<double> xc = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
     vector<double> yc = {5, 4, 3, 2, 1, 0, 0, 0, 0, 0, 0, 0, -5, -4, -3, -2, -1, 0, 0, 0, 0, 0, 0, 0};
     vector<pair<double, double> > S;
-    int n = xc.size();
+    int n = 12;
     for(int i=0; i<n; i++){
         S.push_back({xc[i], yc[i]});
     }
-    piecewise_continuous(S);
-    for(int i=0; i<n; i++){
-        for(int j=0; j<n; j++){
-            cout << I[i][j] << " " ;
+    int t = 1;
+    while(t<n){
+        vector<int> ans;
+        ans = piecewise_continuous(S, t);
+        cout << "When t is " << t << ": ";
+        for(auto i: ans){
+            cout << i << " ";
         }
         cout << '\n';
+        t++;
     }
+    // int t = I[0].size();
+    // cout << I[0].size() << '\n';
+    // for(int i=0; i<n; i++){
+    //     for(int j=0; j<t+1; j++){
+    //         cout << I[i][j] << " " ;
+    //     }
+    //     cout << '\n';
+    // }
 
     return 0;
 }
