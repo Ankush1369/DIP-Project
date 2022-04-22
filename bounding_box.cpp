@@ -111,5 +111,6 @@ int bounding_box_segmentations(vector<pair<float, float>> points)
         curr_length++;
         end=n;
     }
+    // if only one point is left behind, we are ignoring it
     return curr_length;
 }
