@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"*.cpp": "cpp",
+			"vector": "cpp",
+			"utility": "cpp",
+			"memory": "cpp",
+			"filesystem": "cpp"
+		}
+	}
+}
