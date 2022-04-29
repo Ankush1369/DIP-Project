@@ -1,0 +1,63 @@
+line_segments = {} 
+n = number of points
+start = 1
+end = 3
+while(end <= n)
+{
+     min_bbox_positive = ∞
+     min_bbox_negative = ∞
+     length_min_bbox = 0
+     breaking_point = 0
+     min_bbox_posicoord = ∞
+     min_bbox_negacoord = ∞
+     for i = end t0 n                                                                           
+    {
+         max_dist_positive = 0
+         max_dist_negative = 0
+         length = dist(points[start], points[i])
+         positive_coord = ∞
+         negative_coord = ∞
+         for j = start +1 to end -1
+        {
+             w = distance of points[j] from line formed between p[start] and p[i]
+             if(put(points[start], points[i], points[j]) >= 0 and w>max_dist_positive)
+            {
+                 max_dist_positive =w
+                 positive_coord = points[j]
+            }
+            if(put(points[start], points[i], points[j]) < 0 and w>max_dist_negative)
+           {
+                max_dist_negative =w
+                negative_coord = points[j]
+           }
+        }
+        if(min_bbox_positive + min_bbox_negative > (max_dist_positive+max_dist_negative)/length)
+        {
+             min_bbox_positive = max_dist_positive/length
+             min_bbox_negative = max_dist_negative/length
+             breaking_point = i
+             min_bbox_posicoord = positive_coord
+             min_bbox_negacoord = negative_coord
+             length_min_bbox = length
+         }
+    }
+    line_segments.add((min_bbox_positive, min_bbox_negative, length_min_bbox,        breaking_point, min_bbox_positivecoord, min_bbox_negativecoord))
+    start = breaking_point + 1
+    end = start + 2
+}
+
+if(end == n+1)
+{
+    line_segements.add(∞,∞,dist(points[n-1],points[n]),n,∞,∞)
+   end=n
+}
+if(end == n+2)
+{
+  // modify the last segment inserted inside the line_segments data structure such that instead of breaking it at (n-1)th point we can take it to the nth point and hence drop the last minimum bounding box.
+OR
+// we can simply ignore the point as if it didn’t exist inside the dataset
+   end=n
+}
+// dist function is used to find distance between two coordinates
+//put function is designed to find out whether the point lies above or below the segment constructed taking two points
+// in the for loops, we have to include both a & b in the condition a to b
