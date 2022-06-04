@@ -29,11 +29,11 @@ def pltcsv(raw_filename):
     df = pd.DataFrame(out_trajectory)
     df["x"] = df["x"] - df.iloc[0, 0]
     df["y"] = df["y"] - df.iloc[0, 1]
-    df.to_csv(r"C:\Users\User\Desktop\project\DIP-Project\test_data\test_data_manik5.csv",index=False)
+    df.to_csv(r"C:\Users\User\Desktop\project\DIP-Project\test_data\test_data_manik1.csv",index=False)
     # print(df["x"])
-    # plt.plot(list(df["x"]), list(df["y"]))
-    # plt.show()
+    plt.plot(list(df["x"]), list(df["y"]))
+    plt.show()
     
     file.close()
 
-pltcsv(r"C:\Users\User\Desktop\project\DIP-Project\datasets\002\Trajectory\20090223102533.plt")
+pltcsv(r"C:\Users\User\Desktop\project\DIP-Project\datasets\000\Trajectory\20081112023003.plt")
