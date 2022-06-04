@@ -16,7 +16,7 @@ def continuous_plot(df):
 
 # test_file_number = input("Enter test file number: ")
 #Just change this base path for input data
-for i in range(1, 11):
+for i in range(2, 11):
     if(i==7):
         continue
     test_file_number = str(i)
@@ -50,4 +50,6 @@ for i in range(1, 11):
 
     image_path = output_path + "/graphic.png"
     plt.savefig(image_path, format = 'png' , dpi = 2000)
+
+    plt.close()
 
