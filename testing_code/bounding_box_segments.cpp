@@ -88,7 +88,7 @@ vector<boundingBox> bounding_box_segmentations(vector<pair<double, double> > &po
         double minimum_prev_ratio = DBL_MAX;
         pair<double, double> prev_width(DBL_MAX, DBL_MAX);
         bool found = false;
-        cout << "Starting new BB at: " << start << '\n';
+        // cout << "Starting new BB at: " << start << '\n';
         while(end<n){
             percentage = 110.0 + difference;
             pair<double, double> width = find_bounding_box(points, start, end);
@@ -96,13 +96,13 @@ vector<boundingBox> bounding_box_segmentations(vector<pair<double, double> > &po
             double percentage_change = current_ratio*100 / minimum_prev_ratio;
             double width_change = (width.first + width.second) * 100 / (prev_width.first + prev_width.second);
             // cout << current_ratio << " " << prev_width << '\n';
-            cout << end << "(" << points[end].first << ", " << points[end].second << ") " << percentage_change << " " << width_change << " " << percentage << '\n';
+            // cout << end << "(" << points[end].first << ", " << points[end].second << ") " << percentage_change << " " << width_change << " " << percentage << '\n';
             if(end==n-1){
                 end++;
                 prev_width = width;
             }
             if((percentage<percentage_change && percentage < width_change )|| end==n){
-                cout << "Ending the BB at: " << end << "(" << points[end].first << ", " << points[end].second << ")\n "<< '\n';
+                // cout << "Ending the BB at: " << end << "(" << points[end].first << ", " << points[end].second << ")\n "<< '\n';
                 boundingBox latest;
                 latest.start = start;
                 latest.end = end-1;
@@ -202,17 +202,31 @@ vector<pair<double, double> > read_dataset(string fname)
     }
     else
         cout << "Could not open the file\n";
+    file.close();
     return points;
 }
 int main()
 {
-    vector<pair<double, double> > points = read_dataset("/Users/ankushgarg/Desktop/DIP-Project/test_data/test_data7.csv");
-    for(auto i: points){
-        cout << i.first << " " << i.second << '\n';
+    int test_file_number = 7;
+    string inputpath = "/Users/ankushgarg/Desktop/DIP-Project/test_data/test_data" + to_string(test_file_number) + ".csv";
+    vector<pair<double, double> > points = read_dataset(inputpath);
+    // for(auto i: points){
+    //     cout << i.first << " " << i.second << '\n';
+    // }
+    string outpath = "/Users/ankushgarg/Desktop/DIP-Project/testing_code/test_" + to_string(test_file_number) + "/bounding_segments.csv";
+    fstream output_bounding(outpath, ios::out);
+    
+    int n;
+    cout <<  "The number of points to test teh code on: ";
+    cin >> n;
+    vector<boundingBox> res = bounding_box_segmentations(points, n, 250);
+    // output_bounding << "start,end" << endl;
+    output_bounding << "start" << endl;
+    for(auto i: res){
+       //  output_bounding << i.start << "," << i.end << endl;
+        output_bounding << i.start << endl;
     }
-    fstream 
-    // int n = 20;
-    // vector<boundingBox> res = bounding_box_segmentations(points, 60, 250);
+    output_bounding.close();
     // for(auto i: res){
     //     cout << "Starts at: " << i.start << '\n';
     //     cout << "Ends at:   " << i.end << '\n';
