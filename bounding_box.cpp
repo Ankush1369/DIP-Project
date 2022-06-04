@@ -41,7 +41,7 @@ double dist_from_line(pair<double,double> point, pair<double, double> start, pai
 
     double ans = abs_put_value(point, start, end)/dist_between_points(start, end);
     return ans;
-}
+} //distance of a point from line
 
 int find_region(pair<double, double> point, pair< double, double> start, pair<double, double> end)
 {
@@ -51,7 +51,7 @@ int find_region(pair<double, double> point, pair< double, double> start, pair<do
         return -1;
     }
     return 1;   
-}
+} //checking sign of point wrt to a a line joining two points
 
 pair<double, double> find_bounding_box(vector<pair<double, double> > &points, int start, int end){
     double max_upper = 0;
@@ -126,6 +126,38 @@ vector<boundingBox> bounding_box_segmentations(vector<pair<double, double> > &po
     return res;
 }
 
+int find_dfd(int startFirst, int endFirst, int startSecond, int endSecond, vector<pair<double, double> >  &points){
+    int n = points.size();
+    vector<vector<double> > dfd(n, vector<double>(n, DBL_MAX));
+    dfd[startFirst][startSecond] = dist_between_points(points[startFirst], points[startSecond]);
+    for(int i = startSecond; i<endSecond+1; i++){
+        double tmp = dfd[startFirst][i];
+        dfd[startFirst][i+1] = max(tmp, dist_between_points(points[startFirst], points[i+1]));
+    }
+
+    for(int i=startFirst; i<endFirst; i++){
+        double tmp = dfd[i][startSecond];
+        dfd[i+1][startSecond] = max(tmp, dist_between_points(points[i+1], points[startSecond]));
+    }
+
+    for(int i=startFirst+1; i<endFirst+1; i++){
+        for(int j=startSecond+1; j<endSecond+1; j++){
+            dfd[i][j] = dist_between_points(points[i], points[j]);
+            double tmp = min(dfd[i-1][j-1], dfd[i-1][j]);
+            tmp = min(tmp, dfd[i][j-1]);
+            dfd[i][j] = max(tmp, dfd[i][j]);
+
+        }
+    }
+
+    return dfd[endFirst][endSecond];
+}
+
+void finding_motif(vector<pair<double, double> > &points, int k){
+    vector<boundingBox> = bounding_box_segmentations(points, points.size(), 250);
+
+
+}
 
 
 void points_generator()
