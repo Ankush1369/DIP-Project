@@ -108,14 +108,14 @@ pair<double, double> find_bounding_box(vector<pair<double, double> > &points, in
 } //finding box given the end points of the box 
 
 
-vector<boundingBox> bounding_box_segmentations(vector<pair<double, double> > &points,int n, double max_percentage = 110.0)
+vector<boundingBox> bounding_box_segmentations(vector<pair<double, double> > &points,int n, double max_percentage = 105.0)
 {
     if(n>(int)points.size()){
         n = points.size();
     }
     int start = 0;
     double percentage;
-    max_percentage -= 110.0;
+    max_percentage -= 105.0;
     if(max_percentage<0){
         max_percentage = 0;
     }
@@ -128,14 +128,15 @@ vector<boundingBox> bounding_box_segmentations(vector<pair<double, double> > &po
         double minimum_prev_ratio = DBL_MAX;
         pair<double, double> prev_width(DBL_MAX, DBL_MAX);
         bool found = false;
-        // cout << "Starting new BB at: " << start << '\n';
+        cout << "Starting new BB at: " << start << '\n';
         while(end<n){
-            percentage = 110.0 + difference;
+            percentage = 105.0 + difference;
             pair<double, double> width = find_bounding_box(points, start, end);
             double current_ratio = (width.first + width.second) / distance_between_points(points[start], points[end]);
             double percentage_change = current_ratio*100 / minimum_prev_ratio;
             double width_change = (width.first + width.second) * 100 / (prev_width.first + prev_width.second);
-            // cout << current_ratio << " " << prev_width << '\n';
+            // cout << current_ratio <<  " "  ;
+            // cout << prev_width.first + prev_width.second << '\n';
             // cout << end << "(" << points[end].first << ", " << points[end].second << ") " << percentage_change << " " << width_change << " " << percentage << '\n';
             if(end==n-1){
                 end++;

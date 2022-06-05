@@ -46,30 +46,33 @@ def bb_points():
         cnt += 1
 
 
-continuous_plot(df_data)
+# continuous_plot(df_data)
 
 
 continuous_plot(first_trajectory)
 continuous_plot(second_trajectory)
-bb_points()
+# bb_points()
 
 # image_path = output_path + "/motif.svg"
 # plt.savefig(image_path, format = 'svg' , dpi = 2000)
 
-# image_path = output_path + "/motif.png"
-# plt.savefig(image_path, format = 'png' , dpi = 2000)
+image_path = output_path + "/motif.png"
+plt.savefig(image_path, format = 'png' , dpi = 2000)
 
-# continuous_plot(df_data)
+continuous_plot(df_data)
+bb_points()
 
 # image_path = output_path + "/graphic.svg"
 # plt.savefig(image_path, format = 'svg' , dpi = 2000)
 
-# image_path = output_path + "/graphic.png"
-# plt.savefig(image_path, format = 'png' , dpi = 2000)
+image_path = output_path + "/graphic.png"
+plt.savefig(image_path, format = 'png' , dpi = 2000)
 
 # image_path = output_path + "/graphic.eps"
 # plt.savefig(image_path, format = 'eps' , dpi = 2000)
 
-plt.show()
+# plt.show()
     # break
+
+plt.close()
 
