@@ -51,5 +51,9 @@ for i in range(2, 11):
     image_path = output_path + "/graphic.png"
     plt.savefig(image_path, format = 'png' , dpi = 2000)
 
-    plt.close()
+    image_path = output_path + "/graphic.eps"
+    plt.savefig(image_path, format = 'eps' , dpi = 2000)
+
+    plt.show()
+    break
 

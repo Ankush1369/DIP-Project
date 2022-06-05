@@ -6,6 +6,7 @@
         "memory": "cpp",
         "filesystem": "cpp",
         "algorithm": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "iosfwd": "cpp"
     }
 }

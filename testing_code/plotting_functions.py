@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-def show_continuous_plot(df):
+def continuous_plot(df):
     plt.xlabel("Latitude")
     plt.ylabel("Longitude") 
     plt.plot(df["x"], df["y"])

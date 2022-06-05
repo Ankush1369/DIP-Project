@@ -10,9 +10,9 @@
 using namespace std;
 
 int n;
-vector<pair<float, float> > S; // input Trajectory
-vector<vector<float> > dfd;
-float R = 6371.00;
+vector<pair<double, double> > S; // input Trajectory
+vector<vector<double> > dfd;
+double R = 6371.00;
 
 bool valid(int a, int b, int k)
 {
@@ -21,27 +21,26 @@ bool valid(int a, int b, int k)
 
 // Assuming grid coordinates as in dataset
 // Can be easily modified for any other form of coordinates
-float spherical_distance(int i, int j)
+double spherical_distance(int i, int j)
 {
-    float d = 2 * R * asin(sqrt(sin((S[j].first - S[i].first) / 2) * sin((S[j].first - S[i].first) / 2) + cos(S[i].first) * cos(S[j].first) * sin((S[j].second - S[i].second) / 2) * sin((S[j].second - S[i].second) / 2)));
+    double d = 2 * R * asin(sqrt(sin((S[j].first - S[i].first) / 2) * sin((S[j].first - S[i].first) / 2) + cos(S[i].first) * cos(S[j].first) * sin((S[j].second - S[i].second) / 2) * sin((S[j].second - S[i].second) / 2)));
     return d;
 }
 
-float euclidean_distance(int i, int j)
+double euclidean_distance(int i, int j)
 {
-    float d = sqrt(pow(S[i].first - S[j].first, 2) + pow(S[i].second - S[j].second, 2));
+    double d = sqrt(pow(S[i].first - S[j].first, 2) + pow(S[i].second - S[j].second, 2));
     return d;
 }
 
-float distance(int i, int j)
+double distance(int i, int j)
 {
     return spherical_distance(i, j);
 }
 
-
-
-int read_dataset(string fname)
+vector<pair<double, double> > read_dataset(string fname)
 {
+    vector<pair<double, double> >  points;
     string line, word;
     int k = 0;
     fstream file(fname, ios::in);
@@ -49,39 +48,70 @@ int read_dataset(string fname)
     {
         while (getline(file, line))
         {
-            if (k == 1)
-            {
-                // row.clear();
-                int i = 0;
-                pair<float, float> row;
-                stringstream str(line);
-
-                while (getline(str, word, ','))
-                {
-                    if (i == 0)
-                    {
-                        row.first = stof(word);
-                        i++;
-                    }
-                    if (i == 1)
-                    {
-                        row.second = stof(word);
-                        i++;
-                    }
-                }
-                S.push_back(row);
+            if(k==0){
+                k++;
+                continue;
             }
-            k = 1;
+            int i = 0;
+            pair<double, double> row;
+            stringstream str(line);
+            getline(str, word, ',');
+            row.first = stof(word);
+            getline(str, word);
+            row.second = stof(word);
+            points.push_back(row);
         }
     }
     else
         cout << "Could not open the file\n";
-    return S.size();
+    file.close();
+    return points;
 }
+
+
+
+// int read_dataset(string fname)
+// {
+//     string line, word;
+//     int k = 0;
+//     fstream file(fname, ios::in);
+//     if (file.is_open())
+//     {
+//         while (getline(file, line))
+//         {
+//             if (k == 1)
+//             {
+//                 // row.clear();
+//                 int i = 0;
+//                 pair<double, double> row;
+//                 stringstream str(line);
+
+//                 while (getline(str, word, ','))
+//                 {
+//                     if (i == 0)
+//                     {
+//                         row.first = stof(word);
+//                         i++;
+//                     }
+//                     if (i == 1)
+//                     {
+//                         row.second = stof(word);
+//                         i++;
+//                     }
+//                 }
+//                 S.push_back(row);
+//             }
+//             k = 1;
+//         }
+//     }
+//     else
+//         cout << "Could not open the file\n";
+//     return S.size();
+// }
 
 vector<pair<int, int> > motif(int k)
 {
-    float bestDFD = 100000000;
+    double bestDFD = 100000000;
     vector<pair<int, int> > v(2);
    // cout << n << '\n';
     for (int startFirst = 0; startFirst < n && (startFirst + 2 * k - 1) < n; startFirst++)
@@ -109,7 +139,7 @@ vector<pair<int, int> > motif(int k)
                 for (int endSecond = startSecond + 1; endSecond < n; endSecond++)
                 {
                     dfd[endFirst][endSecond] = distance(endFirst, endSecond);
-                    float tmp = min(dfd[endFirst - 1][endSecond], dfd[endFirst - 1][endSecond - 1]);
+                    double tmp = min(dfd[endFirst - 1][endSecond], dfd[endFirst - 1][endSecond - 1]);
                     tmp = min(tmp, dfd[endFirst - 1][endSecond - 1]);
                     // using the recursive relation for DFD computation
                     dfd[endFirst][endSecond] = max(dfd[endFirst][endSecond], tmp);
@@ -147,24 +177,26 @@ void plt_to_csv(string filename, string outfile)
 
 int32_t main()
 {
-    string filename = "dataset.csv";
-    // vector<float> xc = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
-    // vector<float> yc = {5, 4, 3, 2, 1, 0, 0, 0, 0, 0, 0, 0, -5, -4, -3, -2, -1, 0, 0, 0, 0, 0, 0, 0};
+    string filename = "/Users/ankushgarg/Desktop/DIP-Project/test_data/test_data7.csv";
+    // vector<double> xc = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+    // vector<double> yc = {5, 4, 3, 2, 1, 0, 0, 0, 0, 0, 0, 0, -5, -4, -3, -2, -1, 0, 0, 0, 0, 0, 0, 0};
     //sample testcase 
-    cout << "Enter plt filename for Geolife dataset: ";
-    string pltname;
-    cin >> pltname;
-    plt_to_csv(pltname, filename);
-    n = read_dataset(filename);
+    // cout << "Enter plt filename for Geolife dataset: ";
+    // string pltname;
+    // cin >> pltname;
+    // plt_to_csv(pltname, filename);
+    S = read_dataset(filename);
+    n = S.size()/10;
 
-    dfd.resize(n, vector<float>(n, 100000000)); // initialzing dfd as max
+    dfd.resize(n, vector<double>(n, 100000000)); // initialzing dfd as max
     int m, motif_length;
-    cout << "Enter tarjectory length to be analyized: ";
-    cin >> m;
-    cout << "Enter motif_length to be considered: ";
-    cin >> motif_length;
-    n = min(n, m);
-    motif_length = min(n/2, motif_length);
+    motif_length = 26;
+    // cout << "Enter tarjectory length to be analyized: ";
+    // cin >> m;
+    // cout << "Enter motif_length to be considered: ";
+    // cin >> motif_length;
+    // n = min(n, m);
+    // motif_length = min(n/2, motif_length);
     vector<pair<int, int> > res = motif(motif_length);
     for(auto i: res){
         cout << i.first << " "  << i.second << '\n';

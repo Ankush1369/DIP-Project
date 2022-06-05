@@ -201,6 +201,7 @@ void finding_motif(vector<pair<double, double> > &points, int k){
     string outpath = "/Users/ankushgarg/Desktop/DIP-Project/testing_code/test_" + to_string(test_file_number) + "/bounding_segments.csv";
     fstream output_bounding(outpath, ios::out);
     output_bounding << "start" << endl;
+    //Storing bounding box segments in a file
     for(auto i: segments){
         output_bounding << i.start << endl;
     }
@@ -209,6 +210,7 @@ void finding_motif(vector<pair<double, double> > &points, int k){
     int m = segments.size();
     vector<triplet> bb_pairs(m*(m-1)/2);
     int cnt = 0;
+    //Sorting all bounding box pars based on lower bound on their dfd
     for(int i=0; i<m; i++){
         for(int j=i+1; j<m; j++){
             double d1 = distance_between_points(points[segments[i].start], points[segments[j].end]);
@@ -220,6 +222,8 @@ void finding_motif(vector<pair<double, double> > &points, int k){
         }
     }
     sort(bb_pairs.begin(), bb_pairs.end(), cmp);
+    
+    //Finding bounding box with minimum dfd
     double upper_bound = DBL_MAX;
     pair<int, int> best;
     bool flag = false;
@@ -237,7 +241,7 @@ void finding_motif(vector<pair<double, double> > &points, int k){
         if(l1<k){
             continue;
         }
-
+        //finding dfd between two bounding boxes
         double tmp_dfd = find_dfd(first_trajectory.start, first_trajectory.end, second_trajectory.start, second_trajectory.end, points);
         if(tmp_dfd<upper_bound){
             upper_bound = tmp_dfd;
