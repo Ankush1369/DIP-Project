@@ -21,11 +21,11 @@ def continuous_plot(df):
 #     if(i==7):
 #         continue
 test_file_number = input()
-base_test_data_path = '/Users/ankushgarg/Desktop/DIP-Project/test_data'
+base_test_data_path = './test_data'
 test_data_path = base_test_data_path + "/test_data" + test_file_number + ".csv"
 
 #Just change this output path to your base path
-base_output_path = '/Users/ankushgarg/Desktop/DIP-Project/testing_code'
+base_output_path = '.'
 output_path = base_output_path + "/test_" + test_file_number
 bounding_path = output_path + "/bounding_segments.csv"
 

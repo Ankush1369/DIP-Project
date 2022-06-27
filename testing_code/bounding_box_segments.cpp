@@ -277,7 +277,7 @@ int main(int argc, char* argv[])
         return 0;
     }
     test_file_number = atoi(argv[1]);
-    string inputpath = "/Users/ankushgarg/Desktop/DIP-Project/test_data/test_data" + to_string(test_file_number) + ".csv";
+    string inputpath = "./test_data/test_data" + to_string(test_file_number) + ".csv";
     vector<pair<double, double> > points = read_dataset(inputpath);
     // for(auto i: points){
     //     cout << i.first << " " << i.second << '\n';
@@ -309,5 +309,6 @@ int main(int argc, char* argv[])
     // }
     
 }
+
 
 
