@@ -1,0 +1,51 @@
+SETTING UP PYTHON ON LAB LINUX MACHINE
+Instructions to install python on linux machine: 
+sudo apt update
+sudo apt install python3
+
+Check:
+pip3 --version
+
+If it is working
+=> OUTPUT --> pip 9.0.1 from /usr/lib/python3/dist-packages (python 3.6), (or OUTPUT is similar to this,
+just a changed pip version)
+then skip these instructions:
+
+sudo apt install python3-pip
+
+pip install matplotlib
+pip install pandas
+pip install numpy
+
+
+To compile the code:
+g++ -std=c++17 bounding_box_segments.cpp -o bounding_box_segments
+g++ -std=c++17 MotifDP.cpp -o MotifDP
+
+To run the code:
+./bounding_box_segments [test_file_number] 
+./MotifDP [test_file_number]
+
+In our case, test_file_number can be 7 or 9 only. Run the same test_file_number for both the 
+executables "bounding_box_segments" and "MotifDP"
+
+The code will run on taking whole file as input trajectory and will output the starting and ending 
+indicies of both the subtrajectories.
+
+Then to analysize the results, we can plot the results using following:
+python3 saving_plots.py
+
+Now a prompt will open and it will ask you to give a file number, as follow:
+
+        Enter test file number: {Enter Number Here}
+
+now you have to give the file number that you gave above.
+
+We will get 4 PNG files in the respective folders of each test data named as test_data7 or test_data9
+1. Trajectory.png -> Graphical look of our Trajectory
+2. BB_Motif.png -> Motif pair created using bounding_box_segments.cpp
+3. DP_Motif.png -> Motif pair created using MotifDP.cpp which is the solution in the paper
+4. BoundingBoxes.png -> Provides starting and ending points of Bounding box
+
+
+BB_Motif.png and DP_Motif.png are the files to be compared and analysized
