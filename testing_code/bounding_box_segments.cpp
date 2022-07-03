@@ -296,17 +296,9 @@ int main(int argc, char* argv[])
     //     output_bounding << i.start << endl;
     // }
     // output_bounding.close();
-    int k;
-    cout << "Enter motif length: ";
-    cin >> k;
-    k = min(k, 25);
-    finding_motif(points, k);
-    // for(auto i: res){
-    //     cout << "Starts at: " << i.start << '\n';
-    //     cout << "Ends at:   " << i.end << '\n';
-    //     cout << "Width is: " << i.width.first + i.width.second << '\n';
-    //     cout << "Length is: " << distance_between_points(points[i.start], points[i.end]) << "\n\n";
-    // }
+    int motif_length = 25; //assuming fixed motif length, edit this if you want to change the motif length
+    finding_motif(points, motif_length);
+
     
 }
 
