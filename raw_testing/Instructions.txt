@@ -1,0 +1,106 @@
+MotidDP:
+This is the recursive solution implemented in the Research Paper.
+The function to find motif using this solution is:
+    findMotifDP(string filepath, int motif_length, int start_index = 0, int ending_index = 0)
+It takes 4 parameters:
+    filepath: Relative/Absolute path from the place where it executes
+    motif_length: The minimum number of points in each of the subtrajectories
+    
+    In case you wanna run the code for specific range of points, say from 100 to 200 (assuming):
+    you can give start_index = 100, ending_index = 200
+    The output will be offseted by the start_index amount (so don't have to worry about that)
+
+    Also, not giving the ending index will slice the trajectory till the end, and not giving both of them 
+    will take the whole trajectory as it is.
+
+Output will be of the following form:
+    Best DFD is: 16.972472
+    Starting of First Trajectory: 109 
+    End of First Trajectory: 127
+    Start of Second Trajectory: 272
+    End of Second Trajectory: 286
+Best DFD being the paramter based on which we are finding motif pair
+The rest of the as the name says, denote the respective indices (0-based).
+
+To run the file use:
+    g++ -std=c++17 MotifDP.cpp / g++ -std=c++17 <file-name>
+You can change the parameters of the function call in the main() function in the end of the code.
+By default:
+    A file path is given, motif_length = 15, start_index = 0, end_index = 0,
+    Either you can make them dynamic using "cin" call, or compile the code everytime.
+
+
+MotifUsingBoundingBox:
+This is the bounding box solution which has one additional paramter of "percentage" which denotes
+the percentage change acceptable in the ratio of width / length for the bounding box.
+
+The function looks like the following:
+    findMotifUsingBox(string filepath, int motif_length = 20, int percentage = 300, int start_index = 0, int ending_index = 0)
+It takes 5 parameter (4 of them have the same meaning as above) and an 
+additional parameter of "percentage" which is described above.
+
+The output will be of the following form:
+    First best trajectory is: 
+    DFD is: 52.500215
+    Starting of First Trajectory: 43
+    End of First Trajectory: 58
+    Start of Second Trajectory: 58
+    End of Second Trajectory: 76
+
+    Second best trajectory is: 
+    DFD is: 55.975578
+    Starting of First Trajectory: 58
+    End of First Trajectory: 76
+    Start of Second Trajectory: 76
+    End of Second Trajectory: 99
+
+    Third best trajectory is: 
+    DFD is: 57.259127
+    Starting of First Trajectory: 16
+    End of First Trajectory: 43
+    Start of Second Trajectory: 76
+    End of Second Trajectory: 99
+
+    Fourth best trajectory is: 
+    DFD is: 69.527043
+    Starting of First Trajectory: 16
+    End of First Trajectory: 43
+    Start of Second Trajectory: 43
+    End of Second Trajectory: 58
+
+    Fifth best trajectory is: 
+    DFD is: 74.825132
+    Starting of First Trajectory: 0
+    End of First Trajectory: 16
+    Start of Second Trajectory: 58
+    End of Second Trajectory: 76
+
+Here the code prints out five best motif pairs, with their respective DFDs and the indicies
+Running the file and setting function parameters is similar to MotifDP as follows:
+
+
+To run the file use:
+    g++ -std=c++17 MotifUsingBoundingBox.cpp / g++ -std=c++17 <file-name>
+You can change the parameters of the function call in the main() function in the end of the code.
+By default:
+    A file path is given, percentage = 300, motif_length = 15, start_index = 0, end_index = 0,
+    Either you can make them dynamic using "cin" call, or compile the code everytime.
+
+For eg.
+You create a new data file by the name : "dataset.csv" which is the same directory
+as the code file.
+You can change the filepath as :
+    string filepath = "./dataset.csv"
+
+Now the dataset is too large to run, you want to split out the points by range.
+Say, you want to run it from index 300 to index 500
+you change the start_index and ending_index as:
+    start_index = 300
+    ending_index = 500
+
+similarly you can change motif_length and percentage.
+
+
+
+
+

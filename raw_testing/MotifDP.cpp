@@ -181,8 +181,8 @@ void findMotifDP(string filepath, int motif_length = 20,  int start_index = 0, i
 
 int32_t main()
 {
-    int start_index = 0;
-    int ending_index = 0;
+    int start_index = 100;
+    int ending_index = 300;
     int motif_length = 15;
     string filepath = "./data2.csv";
     findMotifDP(filepath, motif_length, start_index, ending_index);

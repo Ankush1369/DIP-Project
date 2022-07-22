@@ -278,9 +278,11 @@ void finding_motif(vector<pair<double, double> > &points, int k, int percentage_
     }
 
     sort(results.begin(), results.end(), cmp_motif);
-    printf("%d, %d, ", k, percentage_change);
+    string postionArr[] = {"First", "Second", "Third", "Fourth", "Fifth"};
+    // printf("%d, %d, ", k, percentage_change);
     for(int i=0; i<5 &&  i < (int)results.size(); i++){
         // printf("%d, %d, ", k, percentage_change);
+        cout << postionArr[i] << " best trajectory is: \n";
         print(results[i], start_index);
     }
 
